@@ -66,3 +66,16 @@ res.status(500)
 res.send(`{"error": document for id ${req.params.id} not found`);
 }
 };
+    // Handle tiger delete on DELETE.
+    exports.tiger_delete = async function(req, res) {
+    console.log("delete " + req.params.id)
+    try {
+    result = await tiger.findByIdAndDelete( req.params.id)
+    console.log("Removed " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": Error deleting ${err}}`);
+    }
+    };
+    
