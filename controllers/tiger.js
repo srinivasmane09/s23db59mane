@@ -66,6 +66,27 @@ res.status(500)
 res.send(`{"error": document for id ${req.params.id} not found`);
 }
 };
+    
+//Handle tiger update form on PUT.
+exports.tiger_update_put = async function(req, res) {
+    console.log(`update on id ${req.params.id} with body
+    ${JSON.stringify(req.body)}`)
+    try {
+    let toUpdate = await tiger.findById( req.params.id)
+    // Do updates of properties
+    if(req.body.tiger_color)
+    toUpdate.tiger_color = req.body.tiger_color;
+    if(req.body.tiger_breed) toUpdate.tiger_breed = req.body.tiger_breed;
+    if(req.body.tiger_price) toUpdate.tiger_price = req.body.tiger_price;
+    let result = await toUpdate.save();
+    console.log("Sucess " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": ${err}: Update for id ${req.params.id}
+    failed`);
+    }
+    };
     // Handle tiger delete on DELETE.
     exports.tiger_delete = async function(req, res) {
     console.log("delete " + req.params.id)
@@ -78,4 +99,46 @@ res.send(`{"error": document for id ${req.params.id} not found`);
     res.send(`{"error": Error deleting ${err}}`);
     }
     };
+    // Handle a show one view with id specified by query
+exports.tiger_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id)
+    try{
+    result = await tiger.findById( req.query.id)
+    res.render('tigerdetail',
+    { title: 'tiger Detail', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+    // Handle building the view for creating a tiger.
+    // No body, no in path parameter, no query.
+    // Does not need to be async
+    exports.tiger_create_Page = function(req, res) {
+    console.log("create view")
+    try{
+    res.render('tigercreate', { title: 'tiger Create'});
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+    // Handle building the view for updating a tiger.
+// query provides the id
+exports.tiger_update_Page = async function(req, res) {
+console.log("update view for item "+req.query.id)
+try{
+let result = await tiger.findById(req.query.id)
+res.render('tigerupdate', { title: 'tiger Update', toShow: result });
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};
+
+
+    
     

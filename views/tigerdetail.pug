@@ -1,0 +1,23 @@
+extends layout
+ 
+block content
+  - if (toShow != null)
+    h1(class='detailh1')= title
+ 
+    - let tigerid = toShow._id
+    - let tiger_color = toShow.tiger_color
+    - let tiger_breed = toShow.tiger_breed
+    - let tiger_price = toShow.tiger_price
+ 
+    div
+      div.row
+        div(class='tigerAttr') tiger ID is: #{tigerid} 
+      div.row
+        div(class='tigerAttr') tiger color is: #{tiger_color}
+      div.row
+        div(class='tigerAttr') tiger breed is: #{tiger_breed} 
+      div.row
+        div(class='tigerAttr') tiger price is: #{tiger_price}
+  - else
+    h1 tiger Details
+    h2 no instance to ddetail
