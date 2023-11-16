@@ -58,3 +58,16 @@ exports.tiger_create_post = async function(req, res) {
     res.send(`{"error": ${err}}`);
     }
     };
+    // Handle tiger delete on DELETE.
+    exports.tiger_delete = async function(req, res) {
+    console.log("delete " + req.params.id)
+    try {
+    result = await tiger.findByIdAndDelete( req.params.id)
+    console.log("Removed " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": Error deleting ${err}}`);
+    }
+    };
+    
