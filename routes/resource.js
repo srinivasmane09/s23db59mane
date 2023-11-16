@@ -18,3 +18,23 @@ router.get('/tigers/:id', tiger_controller.tiger_detail);
 // GET request for list of all tiger items.
 router.get('/tigers', tiger_controller.tiger_list);
 module.exports = router;
+//Handle tiger update form on PUT.
+exports.tiger_update_put = async function(req, res) {
+console.log(`update on id ${req.params.id} with body
+${JSON.stringify(req.body)}`)
+try {
+let toUpdate = await tiger.findById( req.params.id)
+// Do updates of properties
+if(req.body.tiger_color)
+toUpdate.tiger_color = req.body.tiger_color;
+if(req.body.tiger_breed) toUpdate.tiger_breed = req.body.tiger_breed;
+if(req.body.tiger_price) toUpdate.tiger_price = req.body.tiger_price;
+let result = await toUpdate.save();
+console.log("Sucess " + result)
+res.send(result)
+} catch (err) {
+res.status(500)
+res.send(`{"error": ${err}: Update for id ${req.params.id}
+failed`);
+}
+};

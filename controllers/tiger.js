@@ -10,10 +10,7 @@ exports.tiger_list = async function(req, res) {
         res.send(`{"error": ${err}}`);
         }
 };
-// for a specific tiger.
-exports.tiger_detail = function(req, res) {
-res.send('NOT IMPLEMENTED: tiger detail: ' + req.params.id);
-};
+
 // Handle tiger create on POST.
 exports.tiger_create_post = function(req, res) {
 res.send('NOT IMPLEMENTED: tiger create POST');
@@ -58,3 +55,14 @@ exports.tiger_create_post = async function(req, res) {
     res.send(`{"error": ${err}}`);
     }
     };
+    // for a specific tiger.
+exports.tiger_detail = async function(req, res) {
+console.log("detail" + req.params.id)
+try {
+result = await tiger.findById( req.params.id)
+res.send(result)
+} catch (error) {
+res.status(500)
+res.send(`{"error": document for id ${req.params.id} not found`);
+}
+};
