@@ -1,26 +1,25 @@
 extends layout
+ 
 block content
-    div(class="container-fluid")
-        h1= title
-    - let items = results;
-    - let o;
-        div(class="row")
-            each form,item in results
-                div(class = "col-sm-2 bg-primary" onclick=`buy(${item})`) #{form.tiger_color}             
-                div(class = "col-sm-2 bg-primary" onclick=`buy(${item})`) #{form.tiger_breed}                
-                div(class = "col-sm-2 bg-primary" onclick=`buy(${item})`) #{form.tiger_price}
-                hr
-    
-    br
-    h5= 'buy'
-
-    div(class="container-fluid")
-      each tiger,index in results
-        div(class="row", onclick=`buy(${index})`)
-          div(class="col-sm-2") <br>tiger #{index}: #{tiger.tiger_color} breed:#{tiger.tiger_breed} price:#{tiger.tiger_price}
-
-    script.
-        function buy(itemNo)
-        {
-            alert(`You purchased Item ${itemNo+1}`)
-        }
+  h1= title
+  - let item = results
+  div(class="container-fluid")
+    div(class="row m-1")
+      each item in results
+        - let destination1 = `dispatch("/tiger/update?id=${item._id}")`
+        - let destination2 = `dispatch("/tiger/create")`
+        - let destination3 = `dispatch("/tiger/detail?id=${item._id}")`
+        - let destination4 = `dispatch("/tiger/delete?id=${item._id}")`
+        div(class="row-sm-2 m-1") 
+          | tiger color: #{item.tiger_color}, 
+          | tiger breed: #{item.tiger_breed}, 
+          | tiger price: #{item.tiger_price}
+          //- button.btn(class="btn-primary ml-1", onclick= destination2) Create 
+        button.btn(class="btn-primary ml-1", onclick= destination1) Update 
+          //- button.btn(class="btn-primary ml-1", onclick= destination3) Detail
+          //- button.btn(class="btn-primary ml-1", onclick= destination4) Delete
+ 
+  script.
+    function dispatch(path) {
+      window.location.href = path;
+    }
