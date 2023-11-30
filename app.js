@@ -43,6 +43,13 @@ var boardRouter = require('./routes/board');
 var chooseRouter = require('./routes/choose');
 var tiger = require("./models/tiger");
 var resourceRouter = require('./routes/resource');
+// passport config
+// Use the existing connection
+// The Account model
+var Account =require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 
 var app = express();
 
